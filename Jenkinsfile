@@ -4,48 +4,9 @@ pipeline {
     tools {
         nodejs "NodeJS"  
     }
-       
-    
+
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('firebase-service-account')
-    }
-
-    stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/ISSE546/asssignment5.git'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Deploy to Firebase') {
-            steps {
-                sh 'npm install -g firebase-tools'
-                sh 'firebase deploy --only hosting'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Deployment succeeded! Your app is live at: https://b6531539ass5-13123.web.app'
-        }
-        failure {
-            echo 'Deployment failed! Check the logs for errors.'
-        }
-    }
-}
-
-pipeline {
-    agent any
-
-    environment {
-        FIREBASE_TOKEN = credentials('firebase-deploy-token')
     }
 
     stages {
