@@ -3,7 +3,7 @@ pipeline {
        
     
     environment {
-        FIREBASE_TOKEN = credentials('firebase-token')
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('firebase-service-account')
     }
 
     stages {
@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy to Firebase') {
             steps {
                 sh 'npm install -g firebase-tools'
-                sh 'firebase deploy --token $FIREBASE_TOKEN --only hosting --non-interactive'
+                sh 'firebase deploy --only hosting'
             }
         }
     }
