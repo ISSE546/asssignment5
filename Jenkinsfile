@@ -16,16 +16,11 @@ pipeline {
             }
         }
 
-        stage('Verify Files') {
-            steps {
-                sh 'ls -la webapp/'  // ตรวจสอบไฟล์เว็บแอป
-            }
-        }
-
+    
         stage('Deploy to Firebase') {
             steps {
                 sh 'npm install -g firebase-tools'
-                sh 'firebase deploy --token $FIREBASE_TOKEN --only hosting --non-interactive'
+                sh 'firebase deploy --only hosting'
             }
         }
     }
