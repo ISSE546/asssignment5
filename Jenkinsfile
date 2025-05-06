@@ -1,10 +1,7 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:16-alpine'
-            args '-u root -v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }
+    agent any
+       
+    
     environment {
         FIREBASE_TOKEN = credentials('firebase-token')
     }
