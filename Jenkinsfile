@@ -77,7 +77,7 @@ pipeline {
             echo 'Access your app at: https://b6531539ass5-13123.web.app'
         }
         failure {
-            echo 'Deployment failed! Check the logs.'
+            echo 'Deployment failed Check the logs.'
         }
     }
 }
