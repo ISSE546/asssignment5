@@ -1,6 +1,10 @@
 pipeline {
-    agent any
-
+    agent {
+        docker {
+            image 'node:16-alpine'
+            args '-u root -v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     environment {
         FIREBASE_TOKEN = credentials('firebase-token')
     }
@@ -34,10 +38,49 @@ pipeline {
 
     post {
         success {
-            echo 'Deployment succeeded! Your app is live at: https://b6531539ass5.web.app'
+            echo 'Deployment succeeded! Your app is live at: https://b6531539ass5-13123.web.app'
         }
         failure {
             echo 'Deployment failed! Check the logs for errors.'
+        }
+    }
+}
+
+pipeline {
+    agent any
+
+    environment {
+        FIREBASE_TOKEN = credentials('firebase-deploy-token')
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/ISSE546/asssignment5.git'
+            }
+        }
+
+        stage('Verify Files') {
+            steps {
+                sh 'ls -la webapp/'  // ตรวจสอบไฟล์เว็บแอป
+            }
+        }
+
+        stage('Deploy to Firebase') {
+            steps {
+                sh 'npm install -g firebase-tools'
+                sh 'firebase deploy --token $FIREBASE_TOKEN --only hosting --non-interactive'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment succeeded!'
+            echo 'Access your app at: https://b6531539ass5-13123.web.app'
+        }
+        failure {
+            echo 'Deployment failed! Check the logs.'
         }
     }
 }
