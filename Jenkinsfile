@@ -28,7 +28,7 @@ pipeline {
     post {
         success {
             echo 'Deployment succeeded!'
-            echo 'Access your app at: https://b6531539ass5-13123.web.app'
+            echo 'Access your app at: https://b6531539ass5.web.app'
         }
         failure {
             echo 'Deployment failed Check the logs.'
